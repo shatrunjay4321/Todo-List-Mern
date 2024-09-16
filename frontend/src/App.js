@@ -77,6 +77,7 @@ const App = () => {
   };
 
   const handleMarkAll = (todos) => {
+    setMarkAll((prev) => !prev);
       todos.forEach((todo) => {
         const editTask = async (todo) => {
           try {
