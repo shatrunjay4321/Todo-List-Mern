@@ -1,8 +1,16 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:3001/api/todos';
+const TODO_API_URL = 'http://localhost:3001/todos';
+const AUTH_API_URL = 'http://localhost:3001/auth';
 
-export const getTodos = () => axios.get(API_URL);
-export const addTodo = (task) => axios.post(API_URL, { task });
-export const editTodo = (id, task, isCompleted) => axios.put(`${API_URL}/${id}`, { task, isCompleted });
-export const deleteTodo = (id) => axios.delete(`${API_URL}/${id}`);
+const getAuthHeaders = (token) => ({
+    headers: { Authorization:token },
+});
+
+export const getTodos = (token) => axios.get(TODO_API_URL, getAuthHeaders(token));
+export const addTodo = (task, token) => axios.post(TODO_API_URL, { task }, getAuthHeaders(token));
+export const editTodo = (id, task, isCompleted, token) => axios.put(`${TODO_API_URL}/${id}`, { task, isCompleted }, getAuthHeaders(token));
+export const deleteTodo = (id, token) => axios.delete(`${TODO_API_URL}/${id}`, getAuthHeaders(token));
+
+export const login = (data) => axios.post(`${AUTH_API_URL}/login`, data);
+export const signup = (data) => axios.post(`${AUTH_API_URL}/signup`, data);
